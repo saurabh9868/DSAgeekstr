@@ -231,6 +231,47 @@ public  class LinkedList {
         }
         return headC.next;
     }
+    //------------------------------------------------------------------------------------------------------
+    public ListNode mergeKLists(ListNode[] lists) {
+        int interval=1;
+        int len=lists.length;
+        if(len==0){
+            return null;
+        }
+        while(interval<len){
+            for(int i=0;i<len-interval;i+=interval*2){
+                merge(lists,i,i+interval);
+            }
+            interval*=2;
+        }
+        return lists[0];
+    }
+
+    public void merge(ListNode[] lists ,int index1 ,int index2){
+        ListNode l1=lists[index1];
+        ListNode l2=lists[index2];
+        ListNode dummy=new ListNode(0);
+        ListNode temp=dummy;
+        while(l1!=null && l2!=null){
+            if(l1.data<l2.data){
+                temp.next=l1;
+                l1=l1.next;
+            }
+            else{
+                temp.next=l2;
+                l2=l2.next;
+            }
+            temp=temp.next;
+        }
+        if(l1!=null){
+            temp.next=l1;
+        }
+        else{
+            temp.next=l2;
+        }
+        lists[index1]=dummy.next;
+    }
+//-------------------------------------------------------------------------------------------------------
     public static void main(String[] args) {
         LinkedList sll=new LinkedList();
         sll.insert(5);
